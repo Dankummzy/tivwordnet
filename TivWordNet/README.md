@@ -1,6 +1,6 @@
 # TivWordNet
 
-**TivWordNet** is a semantic network for the Tiv language, modeled after WordNet. It provides functionality to manage synsets, retrieve hypernyms and hyponyms, and work with definitions and lemmas. The package uses text files for data storage and supports basic operations for lexical semantic processing.
+**TivWordNet** is a semantic network for the Tiv language, modeled after WordNet. It provides functionality to manage synsets, retrieve hypernyms and hyponyms, and work with definitions and lemmas. The package uses SQLite database for data storage and supports basic operations for lexical semantic processing.
 
 ## Features
 

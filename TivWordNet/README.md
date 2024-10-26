@@ -2,6 +2,12 @@
 
 **TivWordNet** is a semantic network for the Tiv language, modeled after WordNet. It provides functionality to manage synsets, retrieve hypernyms and hyponyms, and work with definitions and lemmas. The package uses text files for data storage and supports basic operations for lexical semantic processing.
 
+## Features
+
+- **Word Definitions**: Store and retrieve meanings for various Tiv words.
+- **Hypernym Relationships**: Define relationships between words to create a semantic hierarchy.
+- **Data Population**: Populate the database with predefined word and hypernym data.
+
 ## Installation
 
 To install TivWordNet, you can use `pip`:
@@ -14,81 +20,46 @@ Usage
 Importing the Package
 First, import the TivWordNet class from the package:
 
+if __name__ == "__main__":
+    word_data = [
+        (1, "kwagh", "A domesticated carnivorous mammal."),  # dog
+        (2, "kwer", "A small domesticated carnivorous mammal with soft fur."),  # cat
+        (3, "vhe", "A thing used for transporting people or goods."),  # vehicle
+        (4, "nenev", "A warm-blooded vertebrate animal characterized by the presence of hair or fur."),  # mammal
+        (5, "anih", "A living organism that feeds on organic matter."),  # animal
+        (6, "kikoo", "A warm-blooded vertebrate distinguished by the possession of feathers."),  # bird
+        (7, "fishi", "A limbless cold-blooded vertebrate animal with gills and fins."),  # fish
+        (8, "kpai", "A cold-blooded vertebrate of a class that includes snakes and lizards."),  # reptile
+        (9, "anpigh", "A cold-blooded vertebrate animal that is born in water and breathes with gills."),  # amphibian
+        (10, "we", "A small air-breathing arthropod with six legs."),  # insect
+        (11, "fa", "Movable articles that are used to make a room or building suitable for living or working."),  # furniture
+        # Add more words as needed
+    ]
 
-from tivwordnet import TivWordNet
-Initialize TivWordNet
+    hypernym_data = [
+        (1, 4),
+        (2, 4),
+        (4, 5),
+        (6, 5),
+        (7, 5),
+        # Add more hypernym relationships as needed
+    ]
 
-Create an instance of TivWordNet:
-wn = TivWordNet()
+    with TivWordnetConnector() as connector:
+        tiv_wordnet = TivWordnet(connector)
 
+        # Populate the database with data
+        tiv_wordnet.populate_data(word_data, hypernym_data)
 
-Adding a Synset
-To add a new synset, use the add_synset method:
-wn.add_synset('tiv', 1, 'A language spoken by the Tiv people.')
+        # Retrieve synsets
+        synsets = connector.get_synsets()
+        for synset in synsets:
+            print(synset)
 
-
-Retrieving Synsets
-To retrieve synsets for a word:
-synsets = wn.get_synsets('tiv')
-
-for synset in synsets:
-    print(f"Lemma: {synset.get_lemma()}")
-    print(f"Definition: {synset.get_definition()}")
-
-
-Adding Hypernyms and Hyponyms
-You can add hypernyms and hyponyms to a synset:
-
-wn.add_hypernym('tiv', 1, 'language')
-wn.add_hyponym('tiv', 1, 'Tiv language')
-
-
-Retrieving Hypernyms and Hyponyms
-To get hypernyms and hyponyms for a synset:
-
-synsets = wn.get_synsets('tiv')
-synset = synsets[0] if synsets else None
-
-if synset:
-    hypernyms = wn.get_hypernyms(synset)
-    hyponyms = wn.get_hyponyms(synset)
-    
-    print("Hypernyms:")
-    for hypernym_set in hypernyms:
-        for word in hypernym_set:
-            print(word.get_lemma())
-    
-    print("Hyponyms:")
-    for hyponym_set in hyponyms:
-        for word in hyponym_set:
-            print(word.get_lemma())
-
-
-Getting Common Hypernyms and Hyponyms
-To find common hypernyms or hyponyms between two synsets:
-
-synset1 = wn.get_synsets('tiv')[0] if wn.get_synsets('tiv') else None
-synset2 = wn.get_synsets('language')[0] if wn.get_synsets('language') else None
-
-if synset1 and synset2:
-    common_hypernyms = wn.get_common_hypernyms(synset1, synset2)
-    common_hyponyms = wn.get_common_hyponyms(synset1, synset2)
-    
-    print("Common Hypernyms:")
-    for hypernym in common_hypernyms:
-        for word in hypernym:
-            print(word.get_lemma())
-    
-    print("Common Hyponyms:")
-    for hyponym in common_hyponyms:
-        for word in hyponym:
-            print(word.get_lemma())
-
-Data Files
-The package uses the following text files to store data:
-
-tivwordnet/data/tiv_synsets.txt: Contains synsets, definitions, and relations (e.g., hypernyms and hyponyms).
-tivwordnet/data/tiv_definitions.txt: Contains definitions for individual words (if required for further expansion).
+        # Retrieve hypernyms
+        hypernyms = connector.get_hypernyms()
+        for hypernym in hypernyms:
+            print(hypernym)
 
 License
 TivWordNet is distributed under the MIT License. See LICENSE for more information.
@@ -100,7 +71,8 @@ Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
 
 Acknowledgements
-This project is inspired by WordNet and similar lexical databases.
+This project is inspired by [jamsic/ru-wordnet](https://github.com/jamsic/ru-wordnet/).
+
 
 ### Explanation
 
